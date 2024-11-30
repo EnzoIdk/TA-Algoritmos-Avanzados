@@ -9,7 +9,7 @@ using namespace std;
 #include <cmath>
 #include <ctime>
 
-#define NUM_IND 25
+#define NUM_IND 50
 #define NUM_ITER 100
 #define PROB_MUTA 0.1
 #define TAM_SELEC 0.3
@@ -61,7 +61,7 @@ bool esAberracion(vector<int> cromosoma, const vector<vector<int>> &mapa,
 
 vector<vector<int>> generarPoblacionInicial(const vector<vector<int>> &mapa, 
         const int ciudadInic, const int ciudadFin){
-    int counter = 0, act = ciudadInic, temp = 0;
+    int counter = 0, act = ciudadInic;
     vector<vector<int>> res;
     //Iteracion para la cantidad de individuos
     while(counter < NUM_IND){
@@ -271,7 +271,7 @@ int main(int argc, char ** argv) {
     //1. Debemos hacer una funcion que lea el archivo
     //2. Debemos mantener la hora tras cada movimiento
     //3. Debemos mantener 
-    int ciudadInic = 0, ciudadFin = 49, horaInicio = 630;
+    int ciudadInic = 0, ciudadFin = 26, horaInicio = 630;
     
 //    vector<vector<int>> mapa = {
 //        //1   2   3   4   5

@@ -8,28 +8,22 @@
  * 
  * Created on 29 de noviembre de 2024, 01:32 PM
  */
-//
-//#include <iostream>
-//using namespace std;
-//#include <cstring>
-//
-//#include "Genetico.h"
-//
-////CONSTRUCTOR, COPIA, DESTRUCTOR
-//Genetico::Genetico() {
-//    horaActual = 0;
-//}
-//
-//Genetico::~Genetico() {}
-//
-////GETTERS Y SETTERS
-//void Genetico::SetHoraActual(int horaActual) {
-//    this->horaActual = horaActual;
-//}
-//
-//int Genetico::GetHoraActual() const {
-//    return horaActual;
-//}
+
+#include <iostream>
+using namespace std;
+#include <cstring>
+
+#include "Genetico.h"
+
+//CONSTRUCTOR, COPIA, DESTRUCTOR
+Genetico::Genetico() {}
+
+Genetico::~Genetico() {}
+
+//GETTERS Y SETTERS
+void Genetico::SetHoraActual(int hora) {
+    horaActual = hora;
+}
 
 //METODOS
 

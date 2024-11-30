@@ -12,29 +12,32 @@
 #ifndef MAPA_H
 #define MAPA_H
 
-//class Mapa {
-//private:
-//    int horaInicio;
-//    int horaFin;
-//    vector<vector<int>> rutas;
-//public:
-//    //CONSTRUCTOR, COPIA, DESTRUCTOR
-//    Mapa();
-//    Mapa(const char * nombre);
-//    Mapa(const class Mapa &orig);
-//    virtual ~Mapa();
-//    
-//    //GETTERS Y SETTERS
-//    void setRutas(vector<vector<int>> rutas);
-//    vector<vector<int>> getRutas() const;
-//    void setHoraFin(int horaFin);
-//    int getHoraFin() const;
-//    void setHoraInicio(int horaInicio);
-//    int getHoraInicio() const;
-//
-//    //METODOS
-//    void leerArchivo(const char * nombre);
-//};
+#include <vector>
+using namespace std;
+
+class Mapa {
+private:
+    int horaInicio;
+    int horaFin;
+    vector<vector<int>> rutas;
+public:
+    //CONSTRUCTOR, COPIA, DESTRUCTOR
+    Mapa();
+    Mapa(const char * nombre);
+    Mapa(const class Mapa &orig);
+    virtual ~Mapa();
+    
+    //GETTERS Y SETTERS
+    void setRutas(vector<vector<int>> rutas);
+    vector<vector<int>> getRutas() const;
+    void setHoraFin(int horaFin);
+    int getHoraFin() const;
+    void setHoraInicio(int horaInicio);
+    int getHoraInicio() const;
+
+    //METODOS
+    void leerArchivo(const char * nombre);
+};
 
 //FUNCIONES
 
