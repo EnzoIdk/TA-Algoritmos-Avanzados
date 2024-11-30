@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Distrito.o \
 	${OBJECTDIR}/Genetico.o \
 	${OBJECTDIR}/Mapa.o \
 	${OBJECTDIR}/main.o
@@ -63,6 +64,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/intento1.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/intento1 ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/Distrito.o: Distrito.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Distrito.o Distrito.cpp
 
 ${OBJECTDIR}/Genetico.o: Genetico.cpp
 	${MKDIR} -p ${OBJECTDIR}

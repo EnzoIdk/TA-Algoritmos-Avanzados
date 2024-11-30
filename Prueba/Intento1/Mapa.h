@@ -12,29 +12,37 @@
 #ifndef MAPA_H
 #define MAPA_H
 
-//class Mapa {
-//private:
-//    int horaInicio;
-//    int horaFin;
-//    vector<vector<int>> rutas;
-//public:
-//    //CONSTRUCTOR, COPIA, DESTRUCTOR
-//    Mapa();
-//    Mapa(const char * nombre);
-//    Mapa(const class Mapa &orig);
-//    virtual ~Mapa();
-//    
-//    //GETTERS Y SETTERS
-//    void setRutas(vector<vector<int>> rutas);
-//    vector<vector<int>> getRutas() const;
-//    void setHoraFin(int horaFin);
-//    int getHoraFin() const;
-//    void setHoraInicio(int horaInicio);
-//    int getHoraInicio() const;
-//
-//    //METODOS
-//    void leerArchivo(const char * nombre);
-//};
+#include "Distrito.h"
+
+class Mapa {
+private:
+    //Los datos necesarios para la hora de inicio y fin de este mapa
+    int horaInicio;
+    int horaFin;
+    //La acumulacion de los distritos, la llave es el id y el second es el
+    //distrito en sí
+    std::map<int, class Distrito> rutas;
+    
+    //METODOS
+    void leerHoras(std::ifstream &arch);
+    void leerDatos(std::ifstream &arch);
+public:
+    //CONSTRUCTOR, COPIA, DESTRUCTOR
+    Mapa();
+    Mapa(const char * nombre);
+    Mapa(const class Mapa &orig);
+    virtual ~Mapa();
+    
+    //GETTERS Y SETTERS
+    void setHorario(int horaInicio, int horaFin);
+    int getHoraInicio() const;
+    int getHoraFin() const;
+    
+    //METODOS
+    void operator =(const class Mapa &orig);
+    void leerArchivo(const char * nombre);
+    bool enHora(int hora) const;
+};
 
 //FUNCIONES
 

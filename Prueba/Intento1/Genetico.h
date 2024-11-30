@@ -12,23 +12,25 @@
 #ifndef GENETICO_H
 #define GENETICO_H
 
-//class Genetico {
-//private:
-//    static int horaActual;
-//    vector<class Mapa> mapas;
-//public:
-//    //CONSTRUCTOR, COPIA, DESTRUCTOR
-//    Genetico();
-//    virtual ~Genetico();
-//    
-//    //GETTERS Y SETTERS
-//    static void SetHoraActual(int horaActual);
-//    static int GetHoraActual() const;
-//    
-//    //METODOS
-//    void buscarMejorRuta();
-//
-//};
+#include <vector>
+
+#include "Mapa.h"
+
+class Genetico {
+private:
+    int horaActual;
+    std::vector<class Mapa> mapas;
+public:
+    //CONSTRUCTOR, COPIA, DESTRUCTOR
+    Genetico();
+    virtual ~Genetico();
+    
+    //GETTERS Y SETTERS
+    void SetHoraActual(int horaActual);
+    int getHoraActual() const;
+    //METODOS
+    void buscarMejorRuta(int horaInic, int ciudadInic, int ciudadFin);
+};
 
 //FUNCIONES
 

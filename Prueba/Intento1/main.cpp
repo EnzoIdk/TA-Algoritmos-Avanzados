@@ -9,7 +9,7 @@ using namespace std;
 #include <cmath>
 #include <ctime>
 
-#define NUM_IND 25
+#define NUM_IND 3
 #define NUM_ITER 100
 #define PROB_MUTA 0.1
 #define TAM_SELEC 0.3
@@ -61,7 +61,7 @@ bool esAberracion(vector<int> cromosoma, const vector<vector<int>> &mapa,
 
 vector<vector<int>> generarPoblacionInicial(const vector<vector<int>> &mapa, 
         const int ciudadInic, const int ciudadFin){
-    int counter = 0, act = ciudadInic, temp = 0;
+    int counter = 0, act = ciudadInic;
     vector<vector<int>> res;
     //Iteracion para la cantidad de individuos
     while(counter < NUM_IND){
@@ -267,58 +267,50 @@ void buscarMejorRuta(const vector<vector<int>> &mapa, const int ciudadInic,
     }
 }
 
+#include "Mapa.h"
+
 int main(int argc, char ** argv) {
+    Mapa temp;
+    temp.leerArchivo("Datos0700-0730.txt");
+    
     //1. Debemos hacer una funcion que lea el archivo
     //2. Debemos mantener la hora tras cada movimiento
     //3. Debemos mantener 
-    int ciudadInic = 0, ciudadFin = 49, horaInicio = 630;
+    int ciudadInic = 0, ciudadFin = 4, horaInicio = 630;
     
-//    vector<vector<int>> mapa = {
-//        //1   2   3   4   5
-//        { 0, 30,  0, 20,  0}, //1
-//        {30,  0, 40, 20,  0}, //2
-//        { 0, 40,  0, 20, 15}, //3
-//        {20, 20, 20,  0,  0}, //4
-//        { 0,  0, 15,  0,  0}  //5
-//    };
-//    vector<vector<int>> mapa = {
-//        //1   2   3   4   5   6   7   8   9  10
-//        { 0, 30, 25,  0, 20, 15,  0, 10,  0,  0}, // Nodo 1
-//        {30,  0,  0, 35,  0,  0, 40,  0,  0,  0}, // Nodo 2
-//        {25,  0,  0,  0,  5,  0,  0, 20,  0, 15}, // Nodo 3
-//        { 0, 35,  0,  0,  0, 25, 30,  0,  0,  0}, // Nodo 4
-//        {20,  0,  5,  0,  0, 10,  0,  0, 45,  0}, // Nodo 5
-//        {15,  0,  0, 25, 10,  0, 50,  0,  0,  0}, // Nodo 6
-//        { 0, 40,  0, 30,  0, 50,  0, 35,  0,  0}, // Nodo 7
-//        {10,  0, 20,  0,  0,  0, 35,  0, 40,  0}, // Nodo 8
-//        { 0,  0,  0,  0, 45,  0,  0, 40,  0, 25}, // Nodo 9
-//        { 0,  0, 15,  0,  0,  0,  0,  0, 25,  0}  // Nodo 10
-//    };
-    vector<vector<int>> mapa(50, vector<int>(50, 0));
-    int N = 50;
-    // Generar valores aleatorios y asegurar simetría
-    for (int i = 0; i < 50; ++i) {
-        for (int j = i + 1; j < 50; ++j) {
-            int peso = std::rand() % 51; // Pesos entre 0 y 50
-            mapa[i][j] = peso;
-            mapa[j][i] = peso;
-        }
-    }
-    // Imprimir la matriz de adyacencia en el formato solicitado
-    std::cout << "vector<vector<int>> mapa = {\n";
-    for (int i = 0; i < N; ++i) {
-        std::cout << "    { ";
-        for (int j = 0; j < N; ++j) {
-            std::cout << mapa[i][j];
-            if (j < N - 1) std::cout << ", ";
-        }
-        std::cout << " }"; 
-        if (i < N - 1) std::cout << ","; // Coma al final de cada fila excepto la última
-        std::cout << " // Nodo " << (i + 1) << "\n";
-    }
-    std::cout << "};\n";
+    vector<vector<int>> mapa = {
+        //1   2   3   4   5
+        { 0, 30,  0, 20,  0}, //1
+        {30,  0, 40, 20,  0}, //2
+        { 0, 40,  0, 20, 15}, //3
+        {20, 20, 20,  0,  0}, //4
+        { 0,  0, 15,  0,  0}  //5
+    };
+//    vector<vector<int>> mapa(50, vector<int>(50, 0));
+//    int N = 50;
+//    // Generar valores aleatorios y asegurar simetría
+//    for (int i = 0; i < 50; ++i) {
+//        for (int j = i + 1; j < 50; ++j) {
+//            int peso = std::rand() % 51; // Pesos entre 0 y 50
+//            mapa[i][j] = peso;
+//            mapa[j][i] = peso;
+//        }
+//    }
+//    // Imprimir la matriz de adyacencia en el formato solicitado
+//    std::cout << "vector<vector<int>> mapa = {\n";
+//    for (int i = 0; i < N; ++i) {
+//        std::cout << "    { ";
+//        for (int j = 0; j < N; ++j) {
+//            std::cout << mapa[i][j];
+//            if (j < N - 1) std::cout << ", ";
+//        }
+//        std::cout << " }"; 
+//        if (i < N - 1) std::cout << ","; // Coma al final de cada fila excepto la última
+//        std::cout << " // Nodo " << (i + 1) << "\n";
+//    }
+//    std::cout << "};\n";
     
-    buscarMejorRuta(mapa, ciudadInic, ciudadFin);
+    //buscarMejorRuta(mapa, ciudadInic, ciudadFin);
     
     return 0;
 }
