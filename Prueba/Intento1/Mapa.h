@@ -12,14 +12,20 @@
 #ifndef MAPA_H
 #define MAPA_H
 
-#include <vector>
-using namespace std;
+#include "Distrito.h"
 
 class Mapa {
 private:
+    //Los datos necesarios para la hora de inicio y fin de este mapa
     int horaInicio;
     int horaFin;
-    vector<vector<int>> rutas;
+    //La acumulacion de los distritos, la llave es el id y el second es el
+    //distrito en sí
+    std::map<int, class Distrito> rutas;
+    
+    //METODOS
+    void leerHoras(std::ifstream &arch);
+    void leerDatos(std::ifstream &arch);
 public:
     //CONSTRUCTOR, COPIA, DESTRUCTOR
     Mapa();
@@ -28,15 +34,14 @@ public:
     virtual ~Mapa();
     
     //GETTERS Y SETTERS
-    void setRutas(vector<vector<int>> rutas);
-    vector<vector<int>> getRutas() const;
-    void setHoraFin(int horaFin);
-    int getHoraFin() const;
-    void setHoraInicio(int horaInicio);
+    void setHorario(int horaInicio, int horaFin);
     int getHoraInicio() const;
-
+    int getHoraFin() const;
+    
     //METODOS
+    void operator =(const class Mapa &orig);
     void leerArchivo(const char * nombre);
+    bool enHora(int hora) const;
 };
 
 //FUNCIONES

@@ -21,11 +21,18 @@ Genetico::Genetico() {}
 Genetico::~Genetico() {}
 
 //GETTERS Y SETTERS
-void Genetico::SetHoraActual(int hora) {
-    horaActual = hora;
+void Genetico::SetHoraActual(int horaActual) {
+    this->horaActual = horaActual;
+}
+
+int Genetico::getHoraActual() const{
+    return this->horaActual;
 }
 
 //METODOS
-
+void Genetico::buscarMejorRuta(int horaInic, int ciudadInic, int ciudadFin){
+    //1. Leemos los datos
+    
+}
 
 //FUNCIONES
