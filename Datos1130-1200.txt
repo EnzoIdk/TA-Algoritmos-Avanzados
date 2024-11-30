@@ -1,7 +1,7 @@
-0700, 0730
+1130, 1200
 1, San Miguel, 2, 40, 3, 15
-2, San Isidro, 1, 20, 5, 25
-3, San Borja, 2, 90, 4, 10
-4, La Molina, 3, 10
-5, Miraflores, 1, 20, 6, 35
-6, Surco, 5, 15, 3, 10
+2, San Isidro, 1, 40, 5, 25
+3, San Borja, 2, 40, 4, 10
+4, La Molina, 3, 40
+5, Miraflores, 1, 40, 6, 35
+6, Surco, 5, 35, 3, 10
