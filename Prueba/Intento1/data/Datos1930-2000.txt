@@ -1,7 +1,7 @@
 1930, 2000
-1, San Miguel, 2, 40, 3, 15
-2, San Isidro, 1, 20, 5, 25
-3, San Borja, 2, 90, 4, 10
-4, La Molina, 3, 10
-5, Miraflores, 1, 20, 6, 35
-6, Surco, 5, 15, 3, 10
+0, San Miguel, 1, 20, 2, 20, 4, 30
+1, San Isidro, 0, 10, 2, 70, 4, 15
+2, San Borja, 0, 15, 1, 50, 3, 10, 5, 10
+3, La Molina, 2, 10
+4, Miraflores, 0, 20, 1, 20, 5, 35
+5, Surco, 2, 10, 4, 15
