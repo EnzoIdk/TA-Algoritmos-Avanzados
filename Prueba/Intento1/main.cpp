@@ -9,7 +9,7 @@ using namespace std;
 #include <cmath>
 #include <ctime>
 
-#define NUM_IND 3
+#define NUM_IND 10
 #define NUM_ITER 100
 #define PROB_MUTA 0.1
 #define TAM_SELEC 0.3
@@ -27,7 +27,7 @@ int main(int argc, char ** argv) {
     //Para las horas solo tenemos datos de entre 6:30 hasta 21:30
     //Probar solo con horas menores a mediodia para evitar la falta de
     //datos experimentales
-    int ciudadInic = 0, ciudadFin = 5, horaInicio = 955;
+    int ciudadInic = 1, ciudadFin = 3, horaInicio = 630;
     
     class Genetico solver;
     solver.buscarMejorRuta(horaInicio, ciudadInic, ciudadFin);    
