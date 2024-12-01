@@ -1,7 +1,3 @@
-/*
- * Intento de Lucas Mattias Alvites Galarza - 20221943
- */
-
 /* 
  * File:   Genetico.h
  * Author: Lucas
@@ -20,6 +16,21 @@ class Genetico {
 private:
     int horaActual;
     std::vector<class Mapa> mapas;
+    std::vector<int> mejorRuta;
+    
+    int cantidadDistritos;
+    
+    void leerArchivos();
+    void iniciarAlgoritmo(const int ciudadInic, const int ciudadFin);
+    void establecerMapa(int hora);
+    
+    int ciudadAleatoria(const class Distrito &distrito);
+    bool rutaValida(const std::vector<int> &cromosoma, int pos, 
+            const class Mapa &mapa);
+    void calcularSupervivencia(const std::vector<std::vector<int>> &poblacion, 
+            std::vector<int> &supervivencia, const class Mapa &mapa);
+    void cargaRuleta(const std::vector<int> &supervivencia, 
+            std::vector<int> &ruleta);
 public:
     //CONSTRUCTOR, COPIA, DESTRUCTOR
     Genetico();
@@ -30,9 +41,32 @@ public:
     int getHoraActual() const;
     //METODOS
     void buscarMejorRuta(int horaInic, int ciudadInic, int ciudadFin);
+    
+    std::vector<std::vector<int>> generarPoblacionInicial(
+            const class Mapa &mapa, const int ciudadInic, const int ciudadFin);
+    bool esAberracion(const std::vector<int> &cromosoma, const class Mapa &mapa, 
+            const int ciudadInic, const int ciudadFin);
+    void mostrarPoblacion(const std::vector<std::vector<int>> &poblacion);
+    std::vector<std::vector<int>> seleccion(
+            const std::vector<std::vector<int>> &poblacion, 
+            const class Mapa &mapa);
+    double fitness(const class Mapa &mapa, const std::vector<int> &cromosoma);
+    void mutacion(std::vector<std::vector<int>> padres, 
+            std::vector<std::vector<int>> &poblacion, const class Mapa &mapa,
+            const int ciudadInic, const int ciudadFin);
+    void controlarPoblacion(std::vector<std::vector<int>> &poblacion, 
+            const class Mapa &mapa);
+    void controlarDuplicados(std::vector<std::vector<int>> &poblacion);
+    std::string compactar(const std::vector<int> &cromosoma);
+    void muestraMejor(const std::vector<std::vector<int>> &poblacion, 
+            const class Mapa &mapa);
+    double calculaRuta(const std::vector<int> &cromosoma, 
+            const class Mapa &mapa);
 };
 
 //FUNCIONES
+double fitnessGlobal(const class Mapa &mapa, const std::vector<int>& cromosoma);
+bool comparaCromosoma(const std::vector<int> &a, const std::vector<int> &b);
 
 #endif /* GENETICO_H */
 

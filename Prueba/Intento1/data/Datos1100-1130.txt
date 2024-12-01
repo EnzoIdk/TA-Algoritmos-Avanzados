@@ -1,0 +1,7 @@
+1100, 1130
+1, San Miguel, 2, 10, 3, 35
+2, San Isidro, 1, 5, 5, 25
+3, San Borja, 2, 50, 4, 20
+4, La Molina, 3, 60
+5, Miraflores, 1, 30, 6, 45
+6, Surco, 5, 5, 3, 20

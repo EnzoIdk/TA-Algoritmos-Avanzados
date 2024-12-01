@@ -1,7 +1,3 @@
-/*
- * Intento de Lucas Mattias Alvites Galarza - 20221943
- */
-
 /* 
  * File:   Distrito.h
  * Author: Lucas
@@ -42,7 +38,12 @@ public:
     void insertarVecino(int id, int tiempo);
     bool estaConectado(int id) const;
     
+    double getDistancia(int idVecino);
+    
     void leerVecinos(std::ifstream &arch);
+    int vecinoAleatorio() const;
+    
+    void imprimir();
 };
 
 #endif /* DISTRITO_H */
