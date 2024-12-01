@@ -1,7 +1,3 @@
-/*
- * Intento de Lucas Mattias Alvites Galarza - 20221943
- */
-
 /* 
  * File:   Distrito.cpp
  * Author: Lucas
@@ -47,6 +43,7 @@ std::string Distrito::getNombre() const{
 
 //METODOS
 void Distrito::operator =(const class Distrito &orig){
+    this->id = orig.id;
     this->nombre = orig.nombre;
     this->vecinos = orig.vecinos;
 }
@@ -72,4 +69,8 @@ void Distrito::leerVecinos(std::ifstream &arch){
         this->insertarVecino(idVecino, tiempoVecino);
         if(arch.get() == '\n') break;
     }
+}
+
+int Distrito::vecinoAleatorio() const{
+    int idx = rand()%(vecinos.size());
 }

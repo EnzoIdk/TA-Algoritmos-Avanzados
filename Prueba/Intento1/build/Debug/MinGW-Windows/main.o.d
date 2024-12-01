@@ -1,4 +1,6 @@
-build/Debug/MinGW-Windows/main.o: main.cpp Mapa.h Distrito.h
+build/Debug/MinGW-Windows/main.o: main.cpp Genetico.h Mapa.h Distrito.h
+
+Genetico.h:
 
 Mapa.h:
 

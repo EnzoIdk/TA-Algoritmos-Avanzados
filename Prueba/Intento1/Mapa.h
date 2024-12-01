@@ -1,6 +1,3 @@
-/*
- * Intento de Lucas Mattias Alvites Galarza - 20221943
- */
 
 /* 
  * File:   Mapa.h
@@ -22,6 +19,7 @@ private:
     //La acumulacion de los distritos, la llave es el id y el second es el
     //distrito en sí
     std::map<int, class Distrito> rutas;
+    int cantidadDistritos;
     
     //METODOS
     void leerHoras(std::ifstream &arch);
@@ -37,9 +35,12 @@ public:
     void setHorario(int horaInicio, int horaFin);
     int getHoraInicio() const;
     int getHoraFin() const;
+    int getCantidadDistritos() const;
     
     //METODOS
     void operator =(const class Mapa &orig);
+    class Distrito operator [](int id) const;
+    
     void leerArchivo(const char * nombre);
     bool enHora(int hora) const;
 };

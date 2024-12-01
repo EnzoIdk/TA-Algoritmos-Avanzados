@@ -1,7 +1,3 @@
-/*
- * Intento de Lucas Mattias Alvites Galarza - 20221943
- */
-
 /* 
  * File:   Genetico.h
  * Author: Lucas
@@ -20,6 +16,16 @@ class Genetico {
 private:
     int horaActual;
     std::vector<class Mapa> mapas;
+    std::vector<class Distrito> mejorRuta;
+    class Mapa mapaGlobal;
+    int cantidadDistritos;
+    
+    void leerArchivos();
+    void iniciarAlgoritmo(const int ciudadInic, const int ciudadFin);
+    void establecerMapa(int hora);
+    int ciudadAleatoria(const class Distrito &distrito);
+    bool rutaValida(const std::vector<int> &cromosoma, int pos, 
+            const class Mapa &mapa);
 public:
     //CONSTRUCTOR, COPIA, DESTRUCTOR
     Genetico();
@@ -30,6 +36,12 @@ public:
     int getHoraActual() const;
     //METODOS
     void buscarMejorRuta(int horaInic, int ciudadInic, int ciudadFin);
+    
+    std::vector<std::vector<int>> generarPoblacionInicial(
+            const class Mapa &mapa, const int ciudadInic, const int ciudadFin);
+    bool esAberracion(const std::vector<int> &cromosoma, const class Mapa &mapa, 
+            const int ciudadInic, const int ciudadFin);
+    void mostrarPoblacion(const std::vector<std::vector<int>> &poblacion);
 };
 
 //FUNCIONES

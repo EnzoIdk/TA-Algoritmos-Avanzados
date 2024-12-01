@@ -8,6 +8,7 @@
 Mapa::Mapa() {
     horaFin = 0;
     horaInicio = 0;
+    cantidadDistritos = 0;
 }
 
 Mapa::Mapa(const class Mapa &orig) {
@@ -35,11 +36,20 @@ int Mapa::getHoraInicio() const {
     return this->horaInicio;
 }
 
+int Mapa::getCantidadDistritos() const{
+    return this->cantidadDistritos;
+}
+
 //METODOS
 void Mapa::operator =(const class Mapa &orig){
     this->horaInicio = orig.horaInicio;
     this->horaFin = orig.horaFin;
     this->rutas = orig.rutas;
+    this->cantidadDistritos = orig.cantidadDistritos;
+}
+
+class Distrito Mapa::operator [](int id) const{
+    return rutas.at(id);
 }
 
 void Mapa::leerArchivo(const char * nombre) {
@@ -80,6 +90,7 @@ void Mapa::leerDatos(std::ifstream &arch){
         //Lo agregamos al mapa
         rutas[id] = temp;
     }
+    this->cantidadDistritos = rutas.size();
 }
 
 bool Mapa::enHora(int hora) const{
