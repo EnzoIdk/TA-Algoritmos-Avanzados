@@ -72,5 +72,14 @@ void Distrito::leerVecinos(std::ifstream &arch){
 }
 
 int Distrito::vecinoAleatorio() const{
-    int idx = rand()%(vecinos.size());
+    int idx = rand()%(vecinos.size()), i = 0;
+    for(std::pair<int, int> temp:vecinos){
+        if(i == idx) return temp.first;
+        i++;
+    }
+    return 0;
+}
+
+void Distrito::imprimir(){
+    std::cout<<id<<" - "<<nombre<<std::endl;
 }

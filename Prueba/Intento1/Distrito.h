@@ -40,6 +40,8 @@ public:
     
     void leerVecinos(std::ifstream &arch);
     int vecinoAleatorio() const;
+    
+    void imprimir();
 };
 
 #endif /* DISTRITO_H */

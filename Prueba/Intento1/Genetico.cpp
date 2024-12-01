@@ -36,6 +36,7 @@ void Genetico::buscarMejorRuta(int horaInic, int ciudadInic, int ciudadFin){
     this->leerArchivos();
     //2. Establecemos el mapa incial
     this->establecerMapa(horaInic);
+    //mapaGlobal.imprimir();
     //2. Damos inicio al algoritmo
     this->iniciarAlgoritmo(ciudadInic, ciudadFin);
     

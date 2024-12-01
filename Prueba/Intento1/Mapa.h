@@ -43,6 +43,8 @@ public:
     
     void leerArchivo(const char * nombre);
     bool enHora(int hora) const;
+    
+    void imprimir();
 };
 
 //FUNCIONES

@@ -75,11 +75,11 @@ void Mapa::leerDatos(std::ifstream &arch){
     char nombre[100] = {};
     //1, San Miguel, 2, 40, 3, 15
     while(true){
-        if(arch.eof()) break;
         //Lectura del distrito
         class Distrito temp;
         //Lectura del id
         arch>>id;
+        if(arch.eof()) break;
         arch.get();
         temp.setId(id);
         //Lectura del nombre
@@ -95,4 +95,14 @@ void Mapa::leerDatos(std::ifstream &arch){
 
 bool Mapa::enHora(int hora) const{
     return (hora >= horaInicio) && (hora <=horaFin);
+}
+
+void Mapa::imprimir(){
+    std::cout<<horaInicio<<" - "<<horaFin<<std::endl;
+    std::cout<<cantidadDistritos<<std::endl;
+    for(auto item:rutas){
+        std::cout<<item.first<<" - ";
+        item.second.imprimir();
+        std::cout<<std::endl;
+    }
 }
