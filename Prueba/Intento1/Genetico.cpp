@@ -13,24 +13,18 @@
 #define PROB_MUTA 0.1
 #define TAM_SELEC 0.3
 
+//Variables globales
 class Mapa mapaGlobal;
+std::vector<class Mapa> mapas;
+int cantidadDistritos;
+int horaGlobal = 0; //En realidad guarda el dato de la hora inicial
 
 //CONSTRUCTOR, COPIA, DESTRUCTOR
 Genetico::Genetico() {
     cantidadDistritos = 0;
-    horaActual = 0;
 }
 
 Genetico::~Genetico() {}
-
-//GETTERS Y SETTERS
-void Genetico::SetHoraActual(int horaActual) {
-    this->horaActual = horaActual;
-}
-
-int Genetico::getHoraActual() const{
-    return this->horaActual;
-}
 
 //METODOS
 void Genetico::buscarMejorRuta(int horaInic, int ciudadInic, int ciudadFin){
@@ -40,8 +34,8 @@ void Genetico::buscarMejorRuta(int horaInic, int ciudadInic, int ciudadFin){
     this->establecerMapa(horaInic);
     //mapaGlobal.imprimir();
     //2. Damos inicio al algoritmo
+    horaGlobal = horaInic; //Guardamos la hora incial
     this->iniciarAlgoritmo(ciudadInic, ciudadFin);
-    
 }
 
 void Genetico::leerArchivos(){
@@ -81,12 +75,11 @@ void Genetico::leerArchivos(){
         class Mapa temp;
         //Para obtener el puntero a char contenido en la clase string
         temp.leerArchivo(name.c_str());
-        this->mapas.push_back(temp);
+        mapas.push_back(temp);
     }
 }
 
 void Genetico::establecerMapa(int hora){
-    this->horaActual = hora;
     //Buscamos el mapa
     for(class Mapa mapa:mapas){
         if(mapa.enHora(hora)){
@@ -95,7 +88,7 @@ void Genetico::establecerMapa(int hora){
         }
     }
     //
-    this->cantidadDistritos = mapaGlobal.getCantidadDistritos();
+    cantidadDistritos = mapaGlobal.getCantidadDistritos();
 }
 
 void Genetico::iniciarAlgoritmo(const int ciudadInic, const int ciudadFin){
@@ -140,7 +133,7 @@ std::vector<std::vector<int>> Genetico::generarPoblacionInicial(
         std::vector<int> aux(1, act = ciudadInic);
         while(true){
             if(act == ciudadFin) break;
-            if(aux.size() > this->cantidadDistritos) break;
+            if(aux.size() > cantidadDistritos) break;
             //Escogemos una ciudad aleatoria
             act = this->ciudadAleatoria(mapa[act]);
             //Si llegamos al final entonces terminamos el bucle
@@ -246,9 +239,16 @@ void Genetico::cargaRuleta(const std::vector<int> &supervivencia,
 
 double Genetico::fitness(const class Mapa &mapa, 
         const std::vector<int>& cromosoma){
-    double total = 0;
-    for(int i=0; i<cromosoma.size()-1; i++) 
-        total += mapa[cromosoma[i]].getDistancia(cromosoma[i+1]);
+    double total = 0, temp;
+    int auxHora = horaGlobal;
+    
+    for(int i=0; i<cromosoma.size()-1; i++){
+        temp = mapa[cromosoma[i]].getDistancia(cromosoma[i+1]);
+        auxHora += (int)temp;
+        Genetico::establecerMapa(auxHora);
+        total += temp;
+    }
+        
     return 1.0/total;
 }
 
@@ -335,17 +335,10 @@ double Genetico::calculaRuta(const std::vector<int> &cromosoma,
 
 
 //FUNCIONES
-double fitnessGlobal(const class Mapa &mapa, const std::vector<int>& cromosoma){
-    double total = 0;
-    for(int i=0; i<cromosoma.size()-1; i++) 
-        total += mapa[cromosoma[i]].getDistancia(cromosoma[i+1]);
-    return 1.0/total;
-}
-
 bool comparaCromosoma(const std::vector<int> &a, const std::vector<int> &b){
     double sumA=0, sumB=0;
     //Comparamos los fitness
-    for(int i=0; i<a.size(); i++) sumA+=fitnessGlobal(mapaGlobal, a);
-    for(int i=0; i<b.size(); i++) sumB+=fitnessGlobal(mapaGlobal, b);
+    for(int i=0; i<a.size(); i++) sumA+=Genetico::fitness(mapaGlobal, a);
+    for(int i=0; i<b.size(); i++) sumB+=Genetico::fitness(mapaGlobal, b);
     return sumA>sumB;
 }

@@ -26,7 +26,7 @@ int main(int argc, char ** argv) {
     //1. Debemos hacer una funcion que lea el archivo
     //2. Debemos mantener la hora tras cada movimiento
     //3. Debemos mantener 
-    int ciudadInic = 0, ciudadFin = 3, horaInicio = 630;
+    int ciudadInic = 0, ciudadFin = 5, horaInicio = 830;
     
     class Genetico solver;
     solver.buscarMejorRuta(horaInicio, ciudadInic, ciudadFin);    
