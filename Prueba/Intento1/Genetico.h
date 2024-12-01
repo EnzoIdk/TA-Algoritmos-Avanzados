@@ -51,6 +51,9 @@ public:
             const std::vector<std::vector<int>> &poblacion, 
             const class Mapa &mapa);
     double fitness(const class Mapa &mapa, const std::vector<int> &cromosoma);
+    void mutacion(const std::vector<std::vector<int>> &padres, 
+        std::vector<std::vector<int>> &poblacion, const class Mapa &mapa,
+        const int ciudadInic, const int ciudadFin);
 };
 
 //FUNCIONES

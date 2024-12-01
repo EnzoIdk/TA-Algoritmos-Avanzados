@@ -112,7 +112,7 @@ void Genetico::iniciarAlgoritmo(const int ciudadInic, const int ciudadFin){
         padres = this->seleccion(poblacion, mapaGlobal);
         //Operadores geneticos
         //-> casamiento(padres, poblacion, mapa, ciudadInic, ciudadFin);
-        mutacion(padres, poblacion, mapa, ciudadInic, ciudadFin);
+        this->mutacion(padres, poblacion, mapaGlobal, ciudadInic, ciudadFin);
         //Controlamos la poblacion
 //        controlarDuplicados(poblacion);
 //        controlarPoblacion(poblacion, mapa);
@@ -248,4 +248,10 @@ double Genetico::fitness(const class Mapa &mapa,
     for(int i=0; i<cromosoma.size()-1; i++) 
         total += mapa[cromosoma[i]].getDistancia(cromosoma[i+1]);
     return 1.0/total;
+}
+
+void Genetico::mutacion(const std::vector<std::vector<int>> &padres, 
+        std::vector<std::vector<int>> &poblacion, const class Mapa &mapa,
+        const int ciudadInic, const int ciudadFin){
+    
 }

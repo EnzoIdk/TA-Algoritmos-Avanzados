@@ -156,24 +156,24 @@ vector<vector<int>> mapaGlobal;
 //}
 
 //
-void mutacion(vector<vector<int>> padres, 
-        vector<vector<int>> &poblacion, const vector<vector<int>> &mapa, 
-        const int ciudadInic, const int ciudadFin){
-    int idx, cantMutaciones;
-    //Recorremos a todos los padres de la muestra
-    for(int i=0; i<padres.size(); i++){
-        cantMutaciones=round(padres[i].size()*PROB_MUTA);
-        //Realizamos una cantidad de mutaciones al padre
-        for(int j=0; j<cantMutaciones; j++){
-            idx=rand()%padres[i].size();
-            //Seleccionamos uno de sus nodos a mutar
-            padres[i][idx] = ciudadAleatoria(mapa[padres[i][idx]]);
-        }
-        //Que no sea aberracion
-        if(not esAberracion(padres[i], mapa, ciudadInic, ciudadFin))
-            poblacion.push_back(padres[i]);
-    }
-}
+//void mutacion(vector<vector<int>> padres, 
+//        vector<vector<int>> &poblacion, const vector<vector<int>> &mapa, 
+//        const int ciudadInic, const int ciudadFin){
+//    int idx, cantMutaciones;
+//    //Recorremos a todos los padres de la muestra
+//    for(int i=0; i<padres.size(); i++){
+//        cantMutaciones=round(padres[i].size()*PROB_MUTA);
+//        //Realizamos una cantidad de mutaciones al padre
+//        for(int j=0; j<cantMutaciones; j++){
+//            idx=rand()%padres[i].size();
+//            //Seleccionamos uno de sus nodos a mutar
+//            padres[i][idx] = ciudadAleatoria(mapa[padres[i][idx]]);
+//        }
+//        //Que no sea aberracion
+//        if(not esAberracion(padres[i], mapa, ciudadInic, ciudadFin))
+//            poblacion.push_back(padres[i]);
+//    }
+//}
 //
 //bool comparaCromosoma(const vector<int> &a, const vector<int> &b){
 //    double sumA=0, sumB=0;
@@ -278,7 +278,7 @@ int main(int argc, char ** argv) {
     //1. Debemos hacer una funcion que lea el archivo
     //2. Debemos mantener la hora tras cada movimiento
     //3. Debemos mantener 
-    int ciudadInic = 0, ciudadFin = 3, horaInicio = 640;
+    int ciudadInic = 0, ciudadFin = 3, horaInicio = 810;
     
     class Genetico solver;
     solver.buscarMejorRuta(horaInicio, 0, ciudadFin);    
