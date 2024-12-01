@@ -23,10 +23,11 @@ using namespace std;
 #include "Genetico.h"
 
 int main(int argc, char ** argv) {
-    //1. Debemos hacer una funcion que lea el archivo
-    //2. Debemos mantener la hora tras cada movimiento
-    //3. Debemos mantener 
-    int ciudadInic = 0, ciudadFin = 5, horaInicio = 630;
+    //1. Probar con ciudades entre 0 y 5
+    //Para las horas solo tenemos datos de entre 6:30 hasta 21:30
+    //Probar solo con horas menores a mediodia para evitar la falta de
+    //datos experimentales
+    int ciudadInic = 0, ciudadFin = 5, horaInicio = 955;
     
     class Genetico solver;
     solver.buscarMejorRuta(horaInicio, ciudadInic, ciudadFin);    
