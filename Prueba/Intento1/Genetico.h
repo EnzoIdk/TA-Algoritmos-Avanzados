@@ -1,10 +1,3 @@
-/* 
- * File:   Genetico.h
- * Author: Lucas
- *
- * Created on 29 de noviembre de 2024, 01:32 PM
- */
-
 #ifndef GENETICO_H
 #define GENETICO_H
 
@@ -13,25 +6,9 @@
 #include "Mapa.h"
 
 class Genetico {
-private:
-    int horaActual;
-    std::vector<class Mapa> mapas;
-    std::vector<int> mejorRuta;
-    
-    int cantidadDistritos;
-    
-    void leerArchivos();
-    void iniciarAlgoritmo(const int ciudadInic, const int ciudadFin);
-    void establecerMapa(int hora);
-    
-    int ciudadAleatoria(const class Distrito &distrito);
-    bool rutaValida(const std::vector<int> &cromosoma, int pos, 
-            const class Mapa &mapa);
-    void calcularSupervivencia(const std::vector<std::vector<int>> &poblacion, 
-            std::vector<int> &supervivencia, const class Mapa &mapa);
-    void cargaRuleta(const std::vector<int> &supervivencia, 
-            std::vector<int> &ruleta);
 public:
+    std::vector<int> mejorRuta;
+
     //CONSTRUCTOR, COPIA, DESTRUCTOR
     Genetico();
     virtual ~Genetico();
@@ -40,6 +17,18 @@ public:
     void SetHoraActual(int horaActual);
     int getHoraActual() const;
     //METODOS
+    void leerArchivos();
+    void iniciarAlgoritmo(const int ciudadInic, const int ciudadFin);
+    static void establecerMapa(int hora);
+    
+    int ciudadAleatoria(const class Distrito &distrito);
+    bool rutaValida(const std::vector<int> &cromosoma, int pos, 
+            const class Mapa &mapa);
+    void calcularSupervivencia(const std::vector<std::vector<int>> &poblacion, 
+            std::vector<int> &supervivencia, const class Mapa &mapa);
+    void cargaRuleta(const std::vector<int> &supervivencia, 
+            std::vector<int> &ruleta);
+    
     void buscarMejorRuta(int horaInic, int ciudadInic, int ciudadFin);
     
     std::vector<std::vector<int>> generarPoblacionInicial(
@@ -50,10 +39,18 @@ public:
     std::vector<std::vector<int>> seleccion(
             const std::vector<std::vector<int>> &poblacion, 
             const class Mapa &mapa);
-    double fitness(const class Mapa &mapa, const std::vector<int> &cromosoma);
+    static double fitness(const class Mapa &mapa, 
+            const std::vector<int> &cromosoma);
+    
     void mutacion(std::vector<std::vector<int>> padres, 
             std::vector<std::vector<int>> &poblacion, const class Mapa &mapa,
             const int ciudadInic, const int ciudadFin);
+    void casamiento(std::vector<std::vector<int>> &padres, 
+        std::vector<std::vector<int>> &poblacion, const class Mapa &mapa, 
+        const int ciudadInic, const int ciudadFin);
+    
+    void encuentraIgual(std::vector<int> &madre, std::vector<int> &padre, 
+            int &idMenor, int &idMayor, int& ind);
     void controlarPoblacion(std::vector<std::vector<int>> &poblacion, 
             const class Mapa &mapa);
     void controlarDuplicados(std::vector<std::vector<int>> &poblacion);
@@ -62,10 +59,10 @@ public:
             const class Mapa &mapa);
     double calculaRuta(const std::vector<int> &cromosoma, 
             const class Mapa &mapa);
+    
 };
 
 //FUNCIONES
-double fitnessGlobal(const class Mapa &mapa, const std::vector<int>& cromosoma);
 bool comparaCromosoma(const std::vector<int> &a, const std::vector<int> &b);
 
 #endif /* GENETICO_H */
