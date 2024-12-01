@@ -95,7 +95,6 @@ vector<vector<int>> mapaGlobal;
 //    return res;
 //}
 
-//asdasdasd
 
 //void mostrarPoblacion(vector<vector<int>> poblacion){
 //    for(int i=0; i<poblacion.size(); i++){
@@ -104,6 +103,8 @@ vector<vector<int>> mapaGlobal;
 //        cout<<endl;
 //    }
 //}
+//
+//asdasdasd
 //
 //double fitness(const vector<vector<int>> &mapa, const vector<int> &cromosoma){
 //    double total = 0;
@@ -134,7 +135,7 @@ vector<vector<int>> mapaGlobal;
 //        for(int j=0; j<supervivencia[i]; j++) ruleta[idx++]=i;
 //    }
 //}
-//
+
 //vector<vector<int>> seleccion(const vector<vector<int>> &poblacion, 
 //        const vector<vector<int>> &mapa){
 //    vector<vector<int>> padres;
@@ -153,25 +154,26 @@ vector<vector<int>> mapaGlobal;
 //    }
 //    return padres;
 //}
+
 //
-//void mutacion(vector<vector<int>> padres, 
-//        vector<vector<int>> &poblacion, const vector<vector<int>> &mapa, 
-//        const int ciudadInic, const int ciudadFin){
-//    int idx, cantMutaciones;
-//    //Recorremos a todos los padres de la muestra
-//    for(int i=0; i<padres.size(); i++){
-//        cantMutaciones=round(padres[i].size()*PROB_MUTA);
-//        //Realizamos una cantidad de mutaciones al padre
-//        for(int j=0; j<cantMutaciones; j++){
-//            idx=rand()%padres[i].size();
-//            //Seleccionamos uno de sus nodos a mutar
-//            padres[i][idx] = ciudadAleatoria(mapa[padres[i][idx]]);
-//        }
-//        //Que no sea aberracion
-//        if(not esAberracion(padres[i], mapa, ciudadInic, ciudadFin))
-//            poblacion.push_back(padres[i]);
-//    }
-//}
+void mutacion(vector<vector<int>> padres, 
+        vector<vector<int>> &poblacion, const vector<vector<int>> &mapa, 
+        const int ciudadInic, const int ciudadFin){
+    int idx, cantMutaciones;
+    //Recorremos a todos los padres de la muestra
+    for(int i=0; i<padres.size(); i++){
+        cantMutaciones=round(padres[i].size()*PROB_MUTA);
+        //Realizamos una cantidad de mutaciones al padre
+        for(int j=0; j<cantMutaciones; j++){
+            idx=rand()%padres[i].size();
+            //Seleccionamos uno de sus nodos a mutar
+            padres[i][idx] = ciudadAleatoria(mapa[padres[i][idx]]);
+        }
+        //Que no sea aberracion
+        if(not esAberracion(padres[i], mapa, ciudadInic, ciudadFin))
+            poblacion.push_back(padres[i]);
+    }
+}
 //
 //bool comparaCromosoma(const vector<int> &a, const vector<int> &b){
 //    double sumA=0, sumB=0;
@@ -273,46 +275,13 @@ vector<vector<int>> mapaGlobal;
 #include "Genetico.h"
 
 int main(int argc, char ** argv) {
-    Genetico solver;
-    solver.buscarMejorRuta(640, 0, 3);    
     //1. Debemos hacer una funcion que lea el archivo
     //2. Debemos mantener la hora tras cada movimiento
     //3. Debemos mantener 
-    int ciudadInic = 0, ciudadFin = 4, horaInicio = 630;
+    int ciudadInic = 0, ciudadFin = 3, horaInicio = 640;
     
-    vector<vector<int>> mapa = {
-        //1   2   3   4   5
-        { 0, 30,  0, 20,  0}, //1
-        {30,  0, 40, 20,  0}, //2
-        { 0, 40,  0, 20, 15}, //3
-        {20, 20, 20,  0,  0}, //4
-        { 0,  0, 15,  0,  0}  //5
-    };
-//    vector<vector<int>> mapa(50, vector<int>(50, 0));
-//    int N = 50;
-//    // Generar valores aleatorios y asegurar simetría
-//    for (int i = 0; i < 50; ++i) {
-//        for (int j = i + 1; j < 50; ++j) {
-//            int peso = std::rand() % 51; // Pesos entre 0 y 50
-//            mapa[i][j] = peso;
-//            mapa[j][i] = peso;
-//        }
-//    }
-//    // Imprimir la matriz de adyacencia en el formato solicitado
-//    std::cout << "vector<vector<int>> mapa = {\n";
-//    for (int i = 0; i < N; ++i) {
-//        std::cout << "    { ";
-//        for (int j = 0; j < N; ++j) {
-//            std::cout << mapa[i][j];
-//            if (j < N - 1) std::cout << ", ";
-//        }
-//        std::cout << " }"; 
-//        if (i < N - 1) std::cout << ","; // Coma al final de cada fila excepto la última
-//        std::cout << " // Nodo " << (i + 1) << "\n";
-//    }
-//    std::cout << "};\n";
-    
-    //buscarMejorRuta(mapa, ciudadInic, ciudadFin);
+    class Genetico solver;
+    solver.buscarMejorRuta(horaInicio, 0, ciudadFin);    
     
     return 0;
 }

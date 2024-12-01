@@ -83,3 +83,12 @@ int Distrito::vecinoAleatorio() const{
 void Distrito::imprimir(){
     std::cout<<id<<" - "<<nombre<<std::endl;
 }
+
+double Distrito::getDistancia(int idVecino){
+    if(not vecinos.count(idVecino)){
+        std::cout<<"Error evaluando al vecino "<<idVecino<<" desde "<<nombre<<
+                std::endl;
+        exit(1);
+    }
+    return (double)(vecinos[idVecino]);
+}

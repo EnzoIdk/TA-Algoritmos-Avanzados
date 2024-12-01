@@ -8,7 +8,7 @@
 
 #include "Genetico.h"
 
-#define NUM_IND 1
+#define NUM_IND 10
 #define NUM_ITER 100
 #define PROB_MUTA 0.1
 #define TAM_SELEC 0.3
@@ -106,18 +106,18 @@ void Genetico::iniciarAlgoritmo(const int ciudadInic, const int ciudadFin){
     mostrarPoblacion(poblacion);
     //Iteracion
     for(int i=0; i<NUM_ITER; i++){
-//        vector<vector<int>> padres;
-//        //Realizamos una seleccion aleatoria basada en el fitness de cada
-//        //individuo
-//        padres = seleccion(poblacion, mapa);
-//        //Operadores geneticos
-//        //-> casamiento(padres, poblacion, mapa, ciudadInic, ciudadFin);
-//        mutacion(padres, poblacion, mapa, ciudadInic, ciudadFin);
-//        //Controlamos la poblacion
+        std::vector<std::vector<int>> padres;
+        //Realizamos una seleccion aleatoria basada en el fitness de cada
+        //individuo
+        padres = this->seleccion(poblacion, mapaGlobal);
+        //Operadores geneticos
+        //-> casamiento(padres, poblacion, mapa, ciudadInic, ciudadFin);
+        mutacion(padres, poblacion, mapa, ciudadInic, ciudadFin);
+        //Controlamos la poblacion
 //        controlarDuplicados(poblacion);
 //        controlarPoblacion(poblacion, mapa);
-//        //Impresiones
-//        //mostrarPoblacion(poblacion);
+        //Impresiones
+        mostrarPoblacion(poblacion);
 //        muestraMejor(poblacion, mapa);
     }
 }
@@ -137,17 +137,14 @@ std::vector<std::vector<int>> Genetico::generarPoblacionInicial(
          */
         std::vector<int> aux(1, act = ciudadInic);
         while(true){
-            std::cout<<act<<std::endl;
             if(act == ciudadFin) break;
             if(aux.size() > this->cantidadDistritos) break;
             //Escogemos una ciudad aleatoria
             act = this->ciudadAleatoria(mapa[act]);
-            std::cout<<"act"<<act<<std::endl;
             //Si llegamos al final entonces terminamos el bucle
             //La agregamos a la ruta
             aux.push_back(act);
         }
-        std::cout<<"DONE"<<rand()%10<<std::endl;
         //Debemos controlar la aberracion
         if(not esAberracion(aux, mapa, ciudadInic, ciudadFin)){
             res.push_back(aux);
@@ -163,9 +160,6 @@ int Genetico::ciudadAleatoria(const class Distrito &distrito){
 
 bool Genetico::esAberracion(const std::vector<int> &cromosoma, 
         const class Mapa &mapa, const int ciudadInic, const int ciudadFin){
-//    for(int x:cromosoma) std::cout<<x<<' ';
-//    std::cout<<'\n';
-    std::cout<<"IN"<<rand()%10<<std::endl;
     //Para controlar a los repetidos
     std::map<int, bool> elegidos;
     for(int i=0; i<cromosoma.size(); i++){
@@ -203,4 +197,55 @@ void Genetico::mostrarPoblacion(const std::vector<std::vector<int>> &poblacion){
             std::cout<<poblacion[i][j]<<' ';
         std::cout<<std::endl;
     }
+}
+
+std::vector<std::vector<int>> Genetico::seleccion(
+        const std::vector<std::vector<int>> &poblacion, const class Mapa &mapa){
+    //Generamos la ruleta y la cantidad de tickets por individuo
+    std::vector<std::vector<int>> padres;
+    std::vector<int> ruleta(100, -1), supervivencia;
+    int numSeleccionados = poblacion.size()*TAM_SELEC, idx;
+    //Calculamos los datos necesarios
+    calcularSupervivencia(poblacion, supervivencia, mapa);
+    cargaRuleta(supervivencia, ruleta);
+    //
+    for(int i=0; i<numSeleccionados; i++){
+        idx=rand()%100;
+        if(ruleta[idx]>-1) padres.push_back(poblacion[ruleta[idx]]);
+        else i--;
+    }
+    return padres;
+}
+
+void Genetico::calcularSupervivencia(
+        const std::vector<std::vector<int>> &poblacion, 
+        std::vector<int> &supervivencia, const class Mapa &mapa){
+    double suma=0;
+    int fit;
+    //Hallamos la sumatoria
+    for(int i=0; i<poblacion.size(); i++) suma+=fitness(mapa, poblacion[i]);
+    //Hallamos el fitness de cada individuo
+    for(int i=0; i<poblacion.size(); i++){
+        //Sin round porque podria redondear de mas y generar mas de 100 tickets
+        fit=(fitness(mapa, poblacion[i])/suma)*100;
+        supervivencia.push_back(fit);
+    }
+}
+
+void Genetico::cargaRuleta(const std::vector<int> &supervivencia, 
+            std::vector<int> &ruleta){
+    int idx=0;
+    //Les asignamos tickets a cada individuo
+    for(int i=0; i<supervivencia.size(); i++){
+        //La cantidad de tickets sera segun su supervivencia
+        for(int j=0; j<supervivencia[i]; j++) ruleta[idx++]=i;
+    }
+}
+
+double Genetico::fitness(const class Mapa &mapa, 
+        const std::vector<int>& cromosoma){
+    double total = 0;
+    for(int i=0; i<cromosoma.size()-1; i++) 
+        total += mapa[cromosoma[i]].getDistancia(cromosoma[i+1]);
+    return 1.0/total;
 }

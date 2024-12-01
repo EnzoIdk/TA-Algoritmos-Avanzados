@@ -38,6 +38,8 @@ public:
     void insertarVecino(int id, int tiempo);
     bool estaConectado(int id) const;
     
+    double getDistancia(int idVecino);
+    
     void leerVecinos(std::ifstream &arch);
     int vecinoAleatorio() const;
     
