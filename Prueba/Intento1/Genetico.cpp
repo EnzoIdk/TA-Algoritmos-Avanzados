@@ -8,8 +8,8 @@
 
 #include "Genetico.h"
 
-#define NUM_IND 10
-#define NUM_ITER 100
+#define NUM_IND 5
+#define NUM_ITER 10
 #define PROB_MUTA 0.1
 #define TAM_SELEC 0.3
 
@@ -106,7 +106,7 @@ void Genetico::iniciarAlgoritmo(const int ciudadInic, const int ciudadFin){
         //individuo
         padres = this->seleccion(poblacion, mapaGlobal);
         //Operadores geneticos
-        //-> casamiento(padres, poblacion, mapa, ciudadInic, ciudadFin);
+        this-> casamiento(padres, poblacion, mapaGlobal, ciudadInic, ciudadFin);
         this->mutacion(padres, poblacion, mapaGlobal, ciudadInic, ciudadFin);
         //Controlamos la poblacion
         this->controlarDuplicados(poblacion);
@@ -268,6 +268,88 @@ void Genetico::mutacion(std::vector<std::vector<int>> padres,
         //Que no sea aberracion
         if(not esAberracion(padres[i], mapa, ciudadInic, ciudadFin))
             poblacion.push_back(padres[i]);
+    }
+}
+
+void Genetico::casamiento(std::vector<std::vector<int>> &padres, 
+        std::vector<std::vector<int>> &poblacion, const class Mapa &mapa, 
+        const int ciudadInic, const int ciudadFin){
+    std::vector<int> hijo1;
+    std::vector<int> hijo2;
+    for(int i=0;i<padres.size();i++){
+        for(int j=0;j<padres.size();j++){
+            int idMenor=0, idMayor=0, ind=0;
+            if(i!=j){
+                  std::vector<int> hijo1;
+                  std::vector<int> hijo2;
+                //primero es la madre, después el padre, padre menor
+                 encuentraIgual(padres[i], padres[j], idMenor, idMayor, ind);
+                 std::cout<<"nuevo"<<std::endl;
+                 for(int y=0;y<padres[i].size();y++){
+                     std::cout<<padres[i][y]<<' ';
+                 }
+                 std::cout<<std::endl;
+                 for(int u=0;u<padres[j].size();u++){
+                     std::cout<<padres[j][u]<<' ';
+                 }
+                 std::cout<<std::endl;
+                if(idMenor > 0 && idMayor > 0 && idMenor < padres[i].size() && idMayor < padres[j].size() && ind){
+                    if(idMenor + 1 < padres[i].size() && idMayor + 1 < padres[j].size()){
+                        if (ind == 1) {
+                            hijo1.insert(hijo1.end(), padres[i].begin(), padres[i].begin() + idMayor + 1);
+                            hijo1.insert(hijo1.end(), padres[j].begin() + idMenor + 1, padres[j].end());
+                            hijo2.insert(hijo2.end(), padres[j].begin(), padres[j].begin() + idMenor + 1);
+                            hijo2.insert(hijo2.end(), padres[i].begin() + idMayor + 1, padres[i].end());
+                        } else {
+                            // Segundo hijo: Mayor padre + Menor padre
+                            hijo1.insert(hijo1.end(), padres[i].begin(), padres[i].begin() + idMenor + 1);
+                            hijo1.insert(hijo1.end(), padres[j].begin() + idMayor + 1, padres[j].end());
+                            hijo2.insert(hijo2.end(), padres[j].begin(), padres[j].begin() + idMayor + 1);
+                            hijo2.insert(hijo2.end(), padres[i].begin() + idMenor + 1, padres[i].end());
+                        }
+                    if(not esAberracion(hijo1, mapa, ciudadInic, ciudadFin)){
+                         poblacion.push_back(hijo1);
+                    }
+                    if(not esAberracion(hijo2, mapa, ciudadInic, ciudadFin)){
+                        poblacion.push_back(hijo2);
+                     }
+                     std::cout<<"hijos"<<std::endl;
+                     for(int y=0;y<hijo1.size();y++){
+                         std::cout<<hijo1[y]<<' ';
+                     }
+                     std::cout<<std::endl;
+                     for(int u=0;u<hijo2.size();u++){
+                         std::cout<<hijo2[u]<<' ';
+                     }
+                     std::cout<<std::endl;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Genetico::encuentraIgual(std::vector<int> &madre, std::vector<int> &padre, 
+        int &idMenor, int &idMayor, int& ind){
+    std::vector<int>menor=padre;
+    std::vector<int>mayor=madre;
+    //por default el menor es el padre
+    ind=1;
+    if(madre.size()<padre.size()) {
+        ind=2;
+        menor=madre;
+        mayor=padre;
+        //ahora el menor es el de la madre
+    }
+    for(int i=1;i<menor.size()-1;i++){
+        for(int j=1;j<mayor.size()-1;j++){
+            //std::cout<<menor[i]<<' '<<mayor[j]<<std::endl;
+            if(menor[i]==mayor[j]){
+                idMenor = i;
+                idMayor= j;
+                return;
+            }
+        }
     }
 }
 
