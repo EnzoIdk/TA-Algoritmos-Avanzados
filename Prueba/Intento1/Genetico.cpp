@@ -8,8 +8,8 @@
 
 #include "Genetico.h"
 
-#define NUM_IND 5
-#define NUM_ITER 10
+#define NUM_IND 10
+#define NUM_ITER 100
 #define PROB_MUTA 0.1
 #define TAM_SELEC 0.3
 
