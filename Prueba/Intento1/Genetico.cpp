@@ -13,6 +13,8 @@
 #define PROB_MUTA 0.1
 #define TAM_SELEC 0.3
 
+class Mapa mapaGlobal;
+
 //CONSTRUCTOR, COPIA, DESTRUCTOR
 Genetico::Genetico() {
     cantidadDistritos = 0;
@@ -114,11 +116,11 @@ void Genetico::iniciarAlgoritmo(const int ciudadInic, const int ciudadFin){
         //-> casamiento(padres, poblacion, mapa, ciudadInic, ciudadFin);
         this->mutacion(padres, poblacion, mapaGlobal, ciudadInic, ciudadFin);
         //Controlamos la poblacion
-//        controlarDuplicados(poblacion);
-//        controlarPoblacion(poblacion, mapa);
+        this->controlarDuplicados(poblacion);
+        this->controlarPoblacion(poblacion, mapaGlobal);
         //Impresiones
-        mostrarPoblacion(poblacion);
-//        muestraMejor(poblacion, mapa);
+        this->mostrarPoblacion(poblacion);
+        this->muestraMejor(poblacion, mapaGlobal);
     }
 }
 
@@ -233,7 +235,7 @@ void Genetico::calcularSupervivencia(
 }
 
 void Genetico::cargaRuleta(const std::vector<int> &supervivencia, 
-            std::vector<int> &ruleta){
+        std::vector<int> &ruleta){
     int idx=0;
     //Les asignamos tickets a cada individuo
     for(int i=0; i<supervivencia.size(); i++){
@@ -250,8 +252,100 @@ double Genetico::fitness(const class Mapa &mapa,
     return 1.0/total;
 }
 
-void Genetico::mutacion(const std::vector<std::vector<int>> &padres, 
+void Genetico::mutacion(std::vector<std::vector<int>> padres, 
         std::vector<std::vector<int>> &poblacion, const class Mapa &mapa,
         const int ciudadInic, const int ciudadFin){
-    
+    int idx, cantMutaciones;
+    //Recorremos a todos los padres de la muestra
+    for(int i=0; i<padres.size(); i++){
+        cantMutaciones=round(padres[i].size()*PROB_MUTA);
+        //Realizamos una cantidad de mutaciones al padre
+        for(int j=0; j<cantMutaciones; j++){
+            idx=rand()%padres[i].size();
+            //Seleccionamos uno de sus nodos a mutar
+            padres[i][idx] = this->ciudadAleatoria(mapa[padres[i][idx]]);
+        }
+        //Que no sea aberracion
+        if(not esAberracion(padres[i], mapa, ciudadInic, ciudadFin))
+            poblacion.push_back(padres[i]);
+    }
+}
+
+void Genetico::controlarPoblacion(std::vector<std::vector<int>> &poblacion, 
+        const class Mapa &mapa){
+    mapaGlobal = mapa;
+    //Ordenamos
+    std::sort(poblacion.begin(), poblacion.end(), comparaCromosoma);
+    //Controlamos la poblacion
+    if(poblacion.size()>NUM_IND)
+        poblacion.erase(poblacion.begin() + NUM_IND, poblacion.end());
+}
+
+void Genetico::controlarDuplicados(std::vector<std::vector<int>> &poblacion){
+    std::map<std::string, std::vector<int>> unicos;
+    std::string code;
+    //Llenamos el mapa
+    for(int i=0; i<poblacion.size(); i++){
+        code = compactar(poblacion[i]);
+        if(unicos.count(code) == 0) unicos[code] = poblacion[i];
+    }
+    //Limpiamos la poblacion
+    poblacion.clear();
+    //Llenamoscon los elementos no reptidos
+    for(std::pair<std::string, std::vector<int>> par:unicos) 
+        poblacion.push_back(par.second);
+}
+
+std::string Genetico::compactar(const std::vector<int> &cromosoma){
+    std::string code = "";
+    //Le damos como un "numero hash" para diferenciarlos
+    for(int i=0; i<cromosoma.size(); i++){
+        code.push_back((char)(cromosoma[i] + 49));
+    }
+    return code;
+}
+
+void Genetico::muestraMejor(const std::vector<std::vector<int>> &poblacion, 
+        const class Mapa &mapa) {
+    int idxMejor=0;
+    double fitnessMejor=DBL_MIN, fitnessTemp;
+    //Compramos y buscamos cual tiene el mejor fitness
+    for(int i=0; i<poblacion.size(); i++){
+        fitnessTemp = this->fitness(mapa, poblacion[i]);
+        if(fitnessMejor < fitnessTemp){
+            idxMejor = i;
+            fitnessMejor = fitnessTemp;
+            this->mejorRuta = poblacion[i];
+        }
+    }
+    //Impresion
+    std::cout<<"La mejor solucion es: "<<calculaRuta(poblacion[idxMejor], mapa)
+            <<std::endl;
+    for(int i=0; i<mejorRuta.size(); i++) std::cout<<mejorRuta[i]<<' ';
+    std::cout<<std::endl<<std::endl;
+}
+
+double Genetico::calculaRuta(const std::vector<int> &cromosoma, 
+        const class Mapa &mapa){
+    int total = 0;
+    for(int i=0; i<cromosoma.size()-1; i++) 
+        total += mapa[cromosoma[i]].getDistancia(cromosoma[i+1]);
+    return total;
+}
+
+
+//FUNCIONES
+double fitnessGlobal(const class Mapa &mapa, const std::vector<int>& cromosoma){
+    double total = 0;
+    for(int i=0; i<cromosoma.size()-1; i++) 
+        total += mapa[cromosoma[i]].getDistancia(cromosoma[i+1]);
+    return 1.0/total;
+}
+
+bool comparaCromosoma(const std::vector<int> &a, const std::vector<int> &b){
+    double sumA=0, sumB=0;
+    //Comparamos los fitness
+    for(int i=0; i<a.size(); i++) sumA+=fitnessGlobal(mapaGlobal, a);
+    for(int i=0; i<b.size(); i++) sumB+=fitnessGlobal(mapaGlobal, b);
+    return sumA>sumB;
 }

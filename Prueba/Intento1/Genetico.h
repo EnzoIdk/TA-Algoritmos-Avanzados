@@ -16,8 +16,8 @@ class Genetico {
 private:
     int horaActual;
     std::vector<class Mapa> mapas;
-    std::vector<class Distrito> mejorRuta;
-    class Mapa mapaGlobal;
+    std::vector<int> mejorRuta;
+    
     int cantidadDistritos;
     
     void leerArchivos();
@@ -51,12 +51,22 @@ public:
             const std::vector<std::vector<int>> &poblacion, 
             const class Mapa &mapa);
     double fitness(const class Mapa &mapa, const std::vector<int> &cromosoma);
-    void mutacion(const std::vector<std::vector<int>> &padres, 
-        std::vector<std::vector<int>> &poblacion, const class Mapa &mapa,
-        const int ciudadInic, const int ciudadFin);
+    void mutacion(std::vector<std::vector<int>> padres, 
+            std::vector<std::vector<int>> &poblacion, const class Mapa &mapa,
+            const int ciudadInic, const int ciudadFin);
+    void controlarPoblacion(std::vector<std::vector<int>> &poblacion, 
+            const class Mapa &mapa);
+    void controlarDuplicados(std::vector<std::vector<int>> &poblacion);
+    std::string compactar(const std::vector<int> &cromosoma);
+    void muestraMejor(const std::vector<std::vector<int>> &poblacion, 
+            const class Mapa &mapa);
+    double calculaRuta(const std::vector<int> &cromosoma, 
+            const class Mapa &mapa);
 };
 
 //FUNCIONES
+double fitnessGlobal(const class Mapa &mapa, const std::vector<int>& cromosoma);
+bool comparaCromosoma(const std::vector<int> &a, const std::vector<int> &b);
 
 #endif /* GENETICO_H */
 
