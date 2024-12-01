@@ -52,7 +52,7 @@ bool esAberracion(vector<int> cromosoma, const vector<vector<int>> &mapa,
     if(cromosoma[0] != ciudadInic) return true;
     if(cromosoma[cromosoma.size() - 1] != ciudadFin) return true;
     //Ahora debemos validar que la ruta tenga sentido
-    for(int i=1; i<cromosoma.size()-1; i++){ //Podemos probar con +=2
+    for(int i=1; i<cromosoma.size()-1; i+=2){ //Podemos probar con +=2
         if(not rutaValida(cromosoma, i, mapa)) return true;
     }
     //Paso todas las pruebas
@@ -239,7 +239,86 @@ void muestraMejor(const vector<vector<int>> &poblacion,
         cout<<poblacion[idxMejor][i]+1<<' ';
     cout<<endl<<endl;
 }
+void encuentraIgual(vector<int>&madre, vector<int>&padre, int &idMenor, int &idMayor, int& ind){
+    vector<int>menor=padre;
+    vector<int>mayor=madre;
+    //por default el menor es el padre
+    ind=1;
+    if(madre.size()<padre.size()) {
+        ind=2;
+        menor=madre;
+        mayor=padre;
+        //ahora el menor es el de la madre
+    }
+    for(int i=1;i<menor.size()-1;i++){
+        for(int j=1;j<mayor.size()-1;j++){
+            cout<<menor[i]<<' '<<mayor[j]<<endl;
+            if(menor[i]==mayor[j]){
+                idMenor = i;
+                idMayor= j;
+                return;
+            }
+        }
+    }
+}
+void casamiento(vector<vector<int>>&padres, vector<vector<int>> &poblacion, const vector<vector<int>> &mapa, 
+        const int ciudadInic, const int ciudadFin){
+    //int  ind=0;
+    vector<int>hijo1;
+    vector<int>hijo2;
+    for(int i=0;i<padres.size();i++){
+        for(int j=0;j<padres.size();j++){
+            int idMenor=0, idMayor=0, ind=0;
+            if(i!=j){
+                  vector<int>hijo1;
+                  vector<int>hijo2;
+                //primero es la madre, después el padre, padre menor
+                 encuentraIgual(padres[i], padres[j], idMenor, idMayor, ind);
+                 cout<<"nuevo"<<endl;
+                 for(int y=0;y<padres[i].size();y++){
+                     cout<<padres[i][y]<<' ';
+                 }
+                 cout<<endl;
+                 for(int u=0;u<padres[j].size();u++){
+                     cout<<padres[j][u]<<' ';
+                 }
+                 cout<<endl;
 
+                if(idMenor > 0 && idMayor > 0 && idMenor < padres[i].size() && idMayor < padres[j].size() && ind){
+                    if(idMenor + 1 < padres[i].size() && idMayor + 1 < padres[j].size()){
+                        if (ind == 1) {
+                            hijo1.insert(hijo1.end(), padres[i].begin(), padres[i].begin() + idMayor + 1);
+                            hijo1.insert(hijo1.end(), padres[j].begin() + idMenor + 1, padres[j].end());
+                            hijo2.insert(hijo2.end(), padres[j].begin(), padres[j].begin() + idMenor + 1);
+                            hijo2.insert(hijo2.end(), padres[i].begin() + idMayor + 1, padres[i].end());
+                        } else {
+                            // Segundo hijo: Mayor padre + Menor padre
+                            hijo1.insert(hijo1.end(), padres[i].begin(), padres[i].begin() + idMenor + 1);
+                            hijo1.insert(hijo1.end(), padres[j].begin() + idMayor + 1, padres[j].end());
+                            hijo2.insert(hijo2.end(), padres[j].begin(), padres[j].begin() + idMayor + 1);
+                            hijo2.insert(hijo2.end(), padres[i].begin() + idMenor + 1, padres[i].end());
+                        }
+                    if(not esAberracion(hijo1, mapa, ciudadInic, ciudadFin)){
+                         poblacion.push_back(hijo1);
+                    }
+                    if(not esAberracion(hijo2, mapa, ciudadInic, ciudadFin)){
+                        poblacion.push_back(hijo2);
+                     }
+                     cout<<"hijos"<<endl;
+                     for(int y=0;y<hijo1.size();y++){
+                         cout<<hijo1[y]<<' ';
+                     }
+                     cout<<endl;
+                     for(int u=0;u<hijo2.size();u++){
+                         cout<<hijo2[u]<<' ';
+                     }
+                     cout<<endl;
+                    }
+                }
+            }
+        }
+    }
+}
 void buscarMejorRuta(const vector<vector<int>> &mapa, const int ciudadInic, 
         const int ciudadFin){
     //Semilla aleatoria
@@ -255,7 +334,11 @@ void buscarMejorRuta(const vector<vector<int>> &mapa, const int ciudadInic,
         vector<vector<int>> padres;
         //Realizamos una seleccion aleatoria basada en el fitness de cada
         //individuo
+        cout<<"ga"<<endl;
         padres = seleccion(poblacion, mapa);
+        cout<<"ga2"<<endl;
+        casamiento(padres, poblacion, mapa, ciudadInic, ciudadFin );
+        cout<<"ga3"<<endl;
         //Operadores geneticos
         mutacion(padres, poblacion, mapa, ciudadInic, ciudadFin);
         //Controlamos la poblacion
@@ -271,7 +354,7 @@ int main(int argc, char ** argv) {
     //1. Debemos hacer una funcion que lea el archivo
     //2. Debemos mantener la hora tras cada movimiento
     //3. Debemos mantener 
-    int ciudadInic = 0, ciudadFin = 49, horaInicio = 630;
+    int ciudadInic = 0, ciudadFin = 4, horaInicio = 630;
     
 //    vector<vector<int>> mapa = {
 //        //1   2   3   4   5
@@ -317,9 +400,41 @@ int main(int argc, char ** argv) {
         std::cout << " // Nodo " << (i + 1) << "\n";
     }
     std::cout << "};\n";
-    
+//    
     buscarMejorRuta(mapa, ciudadInic, ciudadFin);
-    
+//    vector<int>vector1={1,2,3,4,6,10,11,22};
+//    vector<int>vector2={1,11,3,6,15,45,77,88,8,22};
+//     int idMenor=0, idMayor=0, ind=-1;
+//    for(int i=0;i<padres.size();i++){
+//        for(int j=0;j<padres[i].size();j++){
+//            if(i!=j){
+                //primero es la madre, después el padre, padre menor
+     //mama mayor, o sea, 1 como ind
+//                vector<int>hijo1;
+//                vector<int>hijo2;
+//                 encuentraIgual(vector1,vector2, idMenor, idMayor, ind);
+//                 cout<<ind<<' '<<"idMenor:"<<idMenor<<' '<<"idMayor: "<<idMayor<<endl;
+//                if(idMenor and idMayor and ind){
+//                    
+//                     if (ind == 1) {
+//                        hijo1.insert(hijo1.end(),vector1.begin(), vector1.begin() + idMayor + 1);
+//                        hijo1.insert(hijo1.end(), vector2.begin() + idMenor + 1, vector2.end());
+//                       // muestraVector();    
+//                        hijo2.insert(hijo2.end(), vector2.begin(), vector2.begin() + idMenor + 1);
+//                        hijo2.insert(hijo2.end(), vector1.begin() + idMayor + 1, vector1.end());
+//                    } else {
+//                        // Segundo hijo: Mayor padre + Menor padre
+//                        hijo1.insert(hijo1.end(), vector1.begin(), vector1.begin() + idMenor + 1);
+//                        hijo1.insert(hijo1.end(), vector2.begin() + idMayor + 1,vector2.end());
+//
+//                        hijo2.insert(hijo2.end(), vector2.begin(), vector2.begin() + idMayor + 1);
+//                        hijo2.insert(hijo2.end(), vector1.begin() + idMenor + 1, vector1.end());
+//                    }
+//                }
+//                 
+//            }
+//        }
+//    }
     return 0;
 }
 
